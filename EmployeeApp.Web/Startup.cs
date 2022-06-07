@@ -1,3 +1,4 @@
+using EmployeeApp.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +24,11 @@ namespace EmployeeApp.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IEmployeeService, EmployeeService>();
+            services.AddHttpClient<IPositionService, PositionService>();
+
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IPositionService, PositionService>();
             services.AddControllersWithViews();
         }
 

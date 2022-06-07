@@ -1,0 +1,10 @@
+﻿@model IEnumerable<EmployeeDto>
+@{
+    ViewData["Title"] = "Load File";
+}
+
+<h3>Select file to upload</h3>
+<form asp-action="AddFile" asp-controller="Employee" method="post" enctype="multipart/form-data">
+    <input type="file" name="uploadedFile" /><br>
+    <input type="submit" value="Donwload" />
+</form>

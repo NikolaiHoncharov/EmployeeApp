@@ -1,6 +1,8 @@
 ﻿using EmployeeApp.Web.Models;
+using EmployeeApp.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,14 +15,26 @@ namespace EmployeeApp.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IEmployeeService _employeeService;
+        private readonly IPositionService _positionService;
+
+        public HomeController(ILogger<HomeController> logger, IEmployeeService employeeService,
+            IPositionService positionService)
         {
             _logger = logger;
+            this._employeeService = employeeService;
+            this._positionService = positionService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<EmployeeDto> list = new List<EmployeeDto>();
+            var response = await _employeeService.GetAllEmployeeAsync<ResponseDto>();
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<EmployeeDto>>(Convert.ToString(response.Result));
+            }
+            return View(list);
         }
 
         public IActionResult Privacy()
