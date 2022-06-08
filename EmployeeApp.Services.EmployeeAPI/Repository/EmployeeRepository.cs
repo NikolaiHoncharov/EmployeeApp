@@ -19,13 +19,13 @@ namespace EmployeeApp.Services.EmployeeAPI.Repository
 
         public async Task<IEnumerable<EmployeeDto>> GetEmployees()
         {
-            List<Employee> employeesList = await _db.Employees.Include("Position").ToListAsync();
+            List<Employee> employeesList = await _db.Employees.ToListAsync();
             return _mapper.Map<List<EmployeeDto>>(employeesList);
         }
 
         public async Task<EmployeeDto> GetEmployeeById(int employeeId)
         {
-            Employee employee = await _db.Employees.Where(x => x.EmployeeId == employeeId).Include("Position").FirstOrDefaultAsync();
+            Employee employee = await _db.Employees.Where(x => x.EmployeeId == employeeId).FirstOrDefaultAsync();
             return _mapper.Map<EmployeeDto>(employee);
         }
 
@@ -48,20 +48,54 @@ namespace EmployeeApp.Services.EmployeeAPI.Repository
             }
         }
 
-        ///в тз есть условие переделай 
+        
         public async Task<EmployeeDto> CreateUpdateEmployee(EmployeeDto employeeDto)
         {
             Employee employee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
-            if (employee.EmployeeId > 0)
+            string status = "";
+            string message = "";
+            if (employee.RegularOrExternal == false && employee.PersonnelNumber != null)
             {
-                _db.Employees.Update(employee);
+                status = "no valid";
             }
             else
             {
-                _db.Employees.Add(employee);
+                try
+                {
+                    if (employee.EmployeeId > 0)
+                    {
+                        _db.Employees.Update(employee);
+                        status = "update";
+                    }
+                    else
+                    {
+                        _db.Employees.Add(employee);
+                        status = "add new";
+                    }
+                    await _db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    status = "error";
+                    message = ex.Message;
+                }
             }
-            await _db.SaveChangesAsync();
-            return _mapper.Map<Employee, EmployeeDto>(employee);
+            EmployeeDto temp = _mapper.Map<Employee, EmployeeDto>(employee);
+            temp.Status = status;
+            temp.ErrorMessage = message;
+            return temp;
         }
+
+        public async Task<IEnumerable<EmployeeDto>> CreateUpdateListEmployee(IEnumerable<EmployeeDto> employeeDtos)
+        {
+            List<EmployeeDto> TempemployeeDtos = new List<EmployeeDto>();
+            foreach (var employeeDto in employeeDtos)
+            {
+                EmployeeDto temp = await CreateUpdateEmployee(employeeDto);
+                TempemployeeDtos.Add(temp);
+            }
+            return TempemployeeDtos;
+        }
+
     }
 }

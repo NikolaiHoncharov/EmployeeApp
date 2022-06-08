@@ -8,7 +8,7 @@ namespace EmployeeApp.Services.EmployeeAPI.Models
         [Key]
         public int EmployeeId { get; set; }
         public int? PersonnelNumber { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string FIO { get; set; }
         public DateTime DateOfBirth { get; set; }
         public bool RegularOrExternal { get; set; }

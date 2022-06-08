@@ -9,5 +9,9 @@
         public bool RegularOrExternal { get; set; }
         public int PositionId { get; set; }
         public Position Position { get; set; }
+
+        public string Status { get; set; }
+        public string ErrorMessage { get; set; }
+
     }
 }

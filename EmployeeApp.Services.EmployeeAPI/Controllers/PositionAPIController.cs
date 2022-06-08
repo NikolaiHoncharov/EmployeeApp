@@ -16,21 +16,8 @@ namespace EmployeeApp.Services.EmployeeAPI.Controllers
             this._response = new ResponseDto();
         }
         [HttpGet]
-        public async Task<object> Get()
-        {
-            try
-            {
-                IEnumerable<PositionDto> positionDtos = await _positionRepository.GetPositions();
-                _response.Result = positionDtos;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorMessages
-                     = new List<string>() { ex.ToString() };
-            }
-            return _response;
-        }
+        public async Task<IEnumerable<PositionDto>> Get() => await _positionRepository.GetPositions();
+        
 
         [HttpGet]
         [Route("{id}")]

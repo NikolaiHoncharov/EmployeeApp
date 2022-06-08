@@ -16,92 +16,29 @@ namespace EmployeeApp.Services.EmployeeAPI.Controllers
             this._response = new ResponseDto();
         }
         [HttpGet]
-        public async Task<object> Get()
-        {
-            try
-            {
-                IEnumerable<EmployeeDto> employeeDtos = await _employeeRepository.GetEmployees();
-                _response.Result = employeeDtos;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorMessages
-                     = new List<string>() { ex.ToString() };
-            }
-            return _response;
-        }
+        public async Task<IEnumerable<EmployeeDto>> Get() => await _employeeRepository.GetEmployees();
+       
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<object> Get(int id)
-        {
-            try
-            {
-                EmployeeDto employeeDto = await _employeeRepository.GetEmployeeById(id);
-                _response.Result = employeeDto;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorMessages
-                     = new List<string>() { ex.ToString() };
-            }
-            return _response;
-        }
+        public async Task<EmployeeDto> Get(int id) => await _employeeRepository.GetEmployeeById(id);
+        
 
 
         [HttpPost]
-        public async Task<object> Post([FromBody] EmployeeDto employeeDto)
-        {
-            try
-            {
-                EmployeeDto model = await _employeeRepository.CreateUpdateEmployee(employeeDto);
-                _response.Result = model;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorMessages
-                     = new List<string>() { ex.ToString() };
-            }
-            return _response;
-        }
+        public async Task<IEnumerable<EmployeeDto>> Post([FromBody] IEnumerable<EmployeeDto> employeeDtos) =>
+            await _employeeRepository.CreateUpdateListEmployee(employeeDtos);
+
 
 
         [HttpPut]
-        public async Task<object> Put([FromBody] EmployeeDto employeeDto)
-        {
-            try
-            {
-                EmployeeDto model = await _employeeRepository.CreateUpdateEmployee(employeeDto);
-                _response.Result = model;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorMessages
-                     = new List<string>() { ex.ToString() };
-            }
-            return _response;
-        }
+        public async Task<EmployeeDto> Put([FromBody] EmployeeDto employeeDto) => 
+            await _employeeRepository.CreateUpdateEmployee(employeeDto);
+        
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<object> Delete(int id)
-        {
-            try
-            {
-                bool isSuccess = await _employeeRepository.DeleteEmployee(id);
-                _response.Result = isSuccess;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorMessages
-                     = new List<string>() { ex.ToString() };
-            }
-            return _response;
-        }
+        public async Task<bool> Delete(int id) => await _employeeRepository.DeleteEmployee(id);
+        
     }
 }
