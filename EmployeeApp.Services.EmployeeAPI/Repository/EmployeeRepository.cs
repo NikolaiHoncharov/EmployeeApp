@@ -54,7 +54,7 @@ namespace EmployeeApp.Services.EmployeeAPI.Repository
             Employee employee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
             string status = "";
             string message = "";
-            if (employee.RegularOrExternal == false && employee.PersonnelNumber != null)
+            if (employee.RegularOrExternal == true && employee.PersonnelNumber != null)
             {
                 status = "no valid";
             }
