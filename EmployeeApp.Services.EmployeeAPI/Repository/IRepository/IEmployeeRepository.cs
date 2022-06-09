@@ -1,6 +1,6 @@
 ﻿using EmployeeApp.Services.EmployeeAPI.Models.Dto;
 
-namespace EmployeeApp.Services.EmployeeAPI.Repository
+namespace EmployeeApp.Services.EmployeeAPI.Repository.IRepository
 {
     public interface IEmployeeRepository
     {

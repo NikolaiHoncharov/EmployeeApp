@@ -1,5 +1,5 @@
 ﻿using EmployeeApp.Services.EmployeeAPI.Models.Dto;
-using EmployeeApp.Services.EmployeeAPI.Repository;
+using EmployeeApp.Services.EmployeeAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeApp.Services.EmployeeAPI.Controllers

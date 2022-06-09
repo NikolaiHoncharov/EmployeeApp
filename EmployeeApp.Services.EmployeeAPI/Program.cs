@@ -2,6 +2,7 @@ using AutoMapper;
 using EmployeeApp.Services.EmployeeAPI;
 using EmployeeApp.Services.EmployeeAPI.DbContexts;
 using EmployeeApp.Services.EmployeeAPI.Repository;
+using EmployeeApp.Services.EmployeeAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

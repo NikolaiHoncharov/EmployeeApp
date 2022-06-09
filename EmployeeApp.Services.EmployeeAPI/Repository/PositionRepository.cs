@@ -2,6 +2,7 @@
 using EmployeeApp.Services.EmployeeAPI.DbContexts;
 using EmployeeApp.Services.EmployeeAPI.Models;
 using EmployeeApp.Services.EmployeeAPI.Models.Dto;
+using EmployeeApp.Services.EmployeeAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeApp.Services.EmployeeAPI.Repository
